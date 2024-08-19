@@ -8,7 +8,7 @@ Si se necesita presentar las vistas diseñadas en un dashboard ¿qué gráficos 
 
 
 # Filtos:
-- Fecha: Permite seleccionar el período deseado para analizar los datos, ya sea por el último mes, trimestre, año, u otro intervalo de tiempo relevante.
+- Fecha: Permite seleccionar el período deseado para analizar los datos, ya sea por el último mes, trimestre, año, o algun intervalo de tiempo relevante.
 - Merchant: Facilita el filtrado por un merchant específico, permite una vista detallada de los datos asociados solo a ese merchant.
 - Estado de la Remesa: Aunque se enfoca en remesas no procesadas, este filtro podría ampliarse para incluir otros estados de remesa, obteniendo una visión más completa del proceso de remesas.
 - Beneficiario: Permite filtrar los datos por un beneficiario en particular, ofreciendo un análisis detallado de sus remesas y su comportamiento en el sistema.
