@@ -2,25 +2,25 @@ DELIMITER $$
 
 CREATE PROCEDURE InsertarRemesa(
 
-    IN p_nombre_merchant VARCHAR(255),
+    IN p_nombre_merchant VARCHAR(100),
     
-    IN p_tipo_documento_remitente VARCHAR(255),
+    IN p_tipo_documento_remitente VARCHAR(10),
     IN p_numero_documento_remitente INT,
-    IN p_nombres_remitente VARCHAR(255),
-    IN p_email_remitente VARCHAR(255),
+    IN p_nombres_remitente VARCHAR(100),
+    IN p_email_remitente VARCHAR(100),
     IN p_telefono_remitente INT,
     
-    IN p_tipo_documento_beneficiario VARCHAR(255),
+    IN p_tipo_documento_beneficiario VARCHAR(10),
     IN p_numero_documento_beneficiario INT,
-    IN p_nombres_beneficiario VARCHAR(255),
-    IN p_email_beneficiario VARCHAR(255),
+    IN p_nombres_beneficiario VARCHAR(100),
+    IN p_email_beneficiario VARCHAR(100),
     IN p_telefono_beneficiario INT,
-    IN p_numero_cuenta_beneficiario VARCHAR(255),
-    IN p_banco_beneficiario VARCHAR(255),
+    IN p_numero_cuenta_beneficiario VARCHAR(20),
+    IN p_banco_beneficiario VARCHAR(50),
     
     IN p_monto DECIMAL(10,2),
     IN p_moneda CHAR(3),
-    IN p_estado ENUM('pendiente', 'procesado', 'no procesado'),
+    IN p_estado VARCHAR(15),
     IN p_fecha_estado DATE
 )
 BEGIN
@@ -94,4 +94,4 @@ BEGIN
     
 END$$
 
-DELIMITER;
+DELIMITER ;
