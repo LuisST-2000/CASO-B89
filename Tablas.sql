@@ -1,10 +1,10 @@
 -- Tabla Personas
 CREATE TABLE Personas (
     id_persona INT AUTO_INCREMENT PRIMARY KEY,
-    tipo_documento VARCHAR(255),
+    tipo_documento VARCHAR(10),
     numero_documento INT,
-    nombres VARCHAR(255),
-    email VARCHAR(255),
+    nombres VARCHAR(100),
+    email VARCHAR(100),
     telefono INT,
     UNIQUE(id_persona, numero_documento)
 );
@@ -12,15 +12,15 @@ CREATE TABLE Personas (
 -- Tabla Merchants
 CREATE TABLE Merchants (
     id_merchant INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(255) UNIQUE
+    nombre VARCHAR(100) UNIQUE
 );
 
 -- Tabla Cuenta_Bancaria
 CREATE TABLE Cuenta_Bancaria (
     id INT AUTO_INCREMENT PRIMARY KEY,
     beneficiario_id INT,
-    numero_cuenta VARCHAR(255),
-    banco VARCHAR(255),
+    numero_cuenta VARCHAR(20),
+    banco VARCHAR(50),
     FOREIGN KEY (beneficiario_id) REFERENCES Personas(id_persona)
 );
 
@@ -42,7 +42,7 @@ CREATE TABLE Remesas (
     beneficiario_num_cuenta_id INT,
     monto DECIMAL(10, 2),
     moneda CHAR(3),
-    estado ENUM('pendiente', 'procesado', 'no procesado'),
+    estado VARCHAR(15),
     fecha_estado DATE,
     FOREIGN KEY (merchant_remesa_id) REFERENCES Datos_Remesa(id_merchant_remesa),
     FOREIGN KEY (beneficiario_num_cuenta_id) REFERENCES Cuenta_Bancaria(id)
