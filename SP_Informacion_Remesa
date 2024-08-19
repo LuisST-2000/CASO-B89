@@ -46,7 +46,7 @@ BEGIN
     -- Remitente en la Tabla Personas
     SELECT id_persona INTO remitente_id
     FROM Personas
-    WHERE nombres = p_nombres_remitente AND tipo_documento = p_tipo_documento_remitente AND numero_documento = p_numero_documento_remitente;
+    WHERE nombres = p_nombres_remitente;
 
     IF remitente_id IS NULL THEN
         INSERT INTO Personas (tipo_documento, numero_documento, nombres, email, telefono)
@@ -59,7 +59,7 @@ BEGIN
     -- Beneficiario en la tabla Personas
     SELECT id_persona INTO beneficiario_id
     FROM Personas
-    WHERE nombres = p_nombres_beneficiario AND tipo_documento = p_tipo_documento_remitente AND numero_documento = p_numero_documento_remitente ;
+    WHERE nombres = p_nombres_beneficiario;
 
     IF beneficiario_id IS NULL THEN
         INSERT INTO Personas (tipo_documento, numero_documento, nombres, email, telefono)
@@ -94,4 +94,4 @@ BEGIN
     
 END$$
 
-DELIMITER ;
+DELIMITER;
