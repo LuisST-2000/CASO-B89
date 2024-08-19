@@ -40,7 +40,6 @@ BEGIN
       SET merchant_id = LAST_INSERT_ID();
     
     ELSE 
-    -- Si ya existe, devolver el id existente
       SET merchant_id = merchant_id;
     END IF;
     
@@ -67,6 +66,7 @@ BEGIN
         VALUES (p_tipo_documento_beneficiario, p_numero_documento_beneficiario, p_nombres_beneficiario, p_email_beneficiario, p_telefono_beneficiario);
         SET beneficiario_id = LAST_INSERT_ID();
     ELSE
+        -- Si ya existe, devolver el id existente
         SET beneficiario_id = beneficiario_id;
     END IF;
 
