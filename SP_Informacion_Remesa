@@ -2,25 +2,25 @@ DELIMITER $$
 
 CREATE PROCEDURE InsertarRemesa(
 
-    IN p_nombre_merchant VARCHAR(255),
+    IN p_nombre_merchant VARCHAR(100),
     
-    IN p_tipo_documento_remitente VARCHAR(255),
+    IN p_tipo_documento_remitente VARCHAR(10),
     IN p_numero_documento_remitente INT,
-    IN p_nombres_remitente VARCHAR(255),
-    IN p_email_remitente VARCHAR(255),
+    IN p_nombres_remitente VARCHAR(100),
+    IN p_email_remitente VARCHAR(100),
     IN p_telefono_remitente INT,
     
-    IN p_tipo_documento_beneficiario VARCHAR(255),
+    IN p_tipo_documento_beneficiario VARCHAR(10),
     IN p_numero_documento_beneficiario INT,
-    IN p_nombres_beneficiario VARCHAR(255),
-    IN p_email_beneficiario VARCHAR(255),
+    IN p_nombres_beneficiario VARCHAR(100),
+    IN p_email_beneficiario VARCHAR(100),
     IN p_telefono_beneficiario INT,
-    IN p_numero_cuenta_beneficiario VARCHAR(255),
-    IN p_banco_beneficiario VARCHAR(255),
+    IN p_numero_cuenta_beneficiario VARCHAR(20),
+    IN p_banco_beneficiario VARCHAR(50),
     
     IN p_monto DECIMAL(10,2),
     IN p_moneda CHAR(3),
-    IN p_estado ENUM('pendiente', 'procesado', 'no procesado'),
+    IN p_estado VARCHAR(15),
     IN p_fecha_estado DATE
 )
 BEGIN
@@ -40,6 +40,7 @@ BEGIN
       SET merchant_id = LAST_INSERT_ID();
     
     ELSE 
+    -- Si ya existe, devolver el id existente
       SET merchant_id = merchant_id;
     END IF;
     
@@ -66,7 +67,6 @@ BEGIN
         VALUES (p_tipo_documento_beneficiario, p_numero_documento_beneficiario, p_nombres_beneficiario, p_email_beneficiario, p_telefono_beneficiario);
         SET beneficiario_id = LAST_INSERT_ID();
     ELSE
-        -- Si ya existe, devolver el id existente
         SET beneficiario_id = beneficiario_id;
     END IF;
 
@@ -94,4 +94,4 @@ BEGIN
     
 END$$
 
-DELIMITER;
+DELIMITER ;
