@@ -1,28 +1,3 @@
--- Procedure para validar que se utilice el id si el nombre del Merchant existe y no haya redundancia, de lo contrario se agrega un nuevo Merchant 
-
-DELIMITER $$
-
-CREATE PROCEDURE InsertarMerchant(
-    IN p_nombre_merchant VARCHAR(255),
-    OUT p_id_merchant INT
-)
-BEGIN
-    -- Intentar obtener el id del merchant existente
-    SELECT id_merchant INTO p_id_merchant
-    FROM Merchants
-    WHERE nombre = p_nombre_merchant
-    LIMIT 1;
-
-    -- Si no existe, insertar un nuevo merchant y devolver el nuevo id
-    IF p_id_merchant IS NULL THEN
-        INSERT INTO Merchants (nombre)
-        VALUES (p_nombre_merchant);
-        SET p_id_merchant = LAST_INSERT_ID();
-    END IF;
-END$$
-
-DELIMITER ;
-
 DELIMITER $$
 
 CREATE PROCEDURE InsertarRemesa(
@@ -49,36 +24,50 @@ CREATE PROCEDURE InsertarRemesa(
     IN p_fecha_estado DATE
 )
 BEGIN
-    DECLARE id_merchant INT;
+    DECLARE merchant_id INT;
     DECLARE remitente_id INT;
     DECLARE beneficiario_id INT;
     DECLARE beneficiario_cuenta_id INT;
     DECLARE merchant_remesa_id INT;
 
-
-    -- Llamar al procedimiento para obtener el merchant_id
-    CALL InsertarMerchant(p_nombre_merchant, id_merchant);
-
+    SELECT id_merchant INTO merchant_id
+    FROM Merchants
+    WHERE nombre = p_nombre_merchant;
+    
+    IF merchant_id IS NULL THEN
+      INSERT INTO Merchants (nombre)
+      VALUES (p_nombre_merchant);
+      SET merchant_id = LAST_INSERT_ID();
+    
+    ELSE 
+      SET merchant_id = merchant_id;
+    END IF;
+    
     -- Remitente en la Tabla Personas
     SELECT id_persona INTO remitente_id
     FROM Personas
-    WHERE tipo_documento = p_tipo_documento_remitente AND numero_documento = p_numero_documento_remitente;
+    WHERE nombres = p_nombres_remitente AND tipo_documento = p_tipo_documento_remitente AND numero_documento = p_numero_documento_remitente;
 
     IF remitente_id IS NULL THEN
         INSERT INTO Personas (tipo_documento, numero_documento, nombres, email, telefono)
         VALUES (p_tipo_documento_remitente, p_numero_documento_remitente, p_nombres_remitente, p_email_remitente, p_telefono_remitente);
         SET remitente_id = LAST_INSERT_ID();
+    ELSE
+        SET remitente_id = remitente_id;
     END IF;
 
     -- Beneficiario en la tabla Personas
     SELECT id_persona INTO beneficiario_id
     FROM Personas
-    WHERE tipo_documento = p_tipo_documento_beneficiario AND numero_documento = p_numero_documento_beneficiario;
+    WHERE nombres = p_nombres_beneficiario AND tipo_documento = p_tipo_documento_remitente AND numero_documento = p_numero_documento_remitente ;
 
     IF beneficiario_id IS NULL THEN
         INSERT INTO Personas (tipo_documento, numero_documento, nombres, email, telefono)
         VALUES (p_tipo_documento_beneficiario, p_numero_documento_beneficiario, p_nombres_beneficiario, p_email_beneficiario, p_telefono_beneficiario);
         SET beneficiario_id = LAST_INSERT_ID();
+    ELSE
+        -- Si ya existe, devolver el id existente
+        SET beneficiario_id = beneficiario_id;
     END IF;
 
     -- Insertar la Cuenta Bancaria del Beneficiario
@@ -92,11 +81,11 @@ BEGIN
         SET beneficiario_cuenta_id = LAST_INSERT_ID();
     END IF;
 
-    -- Insertar el Merchant y la Remesa en Datos_Remesa
+    -- Insertar el Merchant y la Remesa en Merchant_Remesa
     INSERT INTO Datos_Remesa (merchant_id, remitente_id, beneficiario_id)
-    VALUES (id_merchant, remitente_id, beneficiario_id);
+    VALUES (merchant_id, remitente_id, beneficiario_id);
     
-    -- Obtener el id de Datos_Remesa
+    -- Obtener el id de Merchant_Remesa
     SET merchant_remesa_id = LAST_INSERT_ID();
     
     -- Insertar la Remesa en la tabla Remesas
